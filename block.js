@@ -15,6 +15,14 @@ class Block {
         return new this(GENESIS_DATA);
         // or return new Block(GENESIS_DATA);
     }
+
+    lastBlock() {
+        this. = this.hash -1;
+    }
+
+    minedBlock() {
+        return lastBlock, data
+    }
 }
 
 
