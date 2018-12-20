@@ -16,12 +16,14 @@ class Block {
         // or return new Block(GENESIS_DATA);
     }
 
-    lastBlock() {
-        this. = this.hash -1;
-    }
 
-    minedBlock() {
-        return lastBlock, data
+    static mineBlock({ lastBlock, data }) {
+        // return new Block();
+        return new this({
+            timestamp: Date.now(),
+            lastHash: lastBlock.hash,
+            data
+        });
     }
 }
 

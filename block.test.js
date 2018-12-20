@@ -53,7 +53,14 @@ describe('Block', () => {
         });
 
         it('sets the `lastHash` to be the `hash` of the lastBlock', () => {
-            expect(minedBlock.lastHash). toEqual(lastBlock.hash);
+            expect(minedBlock.lastHash).toEqual(lastBlock.hash);
+        });
+
+        it('sets the `data`', () => {
+            expect(minedBlock.data).toEqual(data);
+        });
+        it ('sets a `timestamp`',() => {
+            expect(minedBlock.timestamp).not.toEqual(undefined);
         });
     });
 });
