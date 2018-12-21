@@ -30,14 +30,16 @@ describe('Blockchain', () => {
             });
         });
 
-        describe('when the chain starts with the genesis block and has multiple blocks', ( )=> {
+        describe('when the chain starts with the genesis block and has multiple blocks', ( ) => {
+            beforeEach(() => { 
+                blockchain.addBlock({ data: 'Lions'});
+                blockchain.addBlock({ data: 'Tigers'});
+                blockchain.addBlock({ data: 'Bears'});
+                blockchain.addBlock({ data: 'Oh-My'}); 
+            });
             describe('and a lastHash reference has changed', ()=> {
                 it ('returns false', () => { 
-                    blockchain.addBlock({ data: 'Lions'});
-                    blockchain.addBlock({ data: 'Tigers'});
-                    blockchain.addBlock({ data: 'Bears'});
-                    blockchain.addBlock({ data: 'Oh-My'});
-                    
+
                     blockchain.chain[3].lastHash = 'broken-bruckup-lastHash';
 
                     expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
@@ -45,11 +47,7 @@ describe('Blockchain', () => {
             });
             describe('and the chain contains a block with an invalid field', () => {
                 it('returns false', () => { 
-                    blockchain.addBlock({ data: 'Lions'});
-                    blockchain.addBlock({ data: 'Tigers'});
-                    blockchain.addBlock({ data: 'Bears'});
-                    blockchain.addBlock({ data: 'Oh-My'});
-                    
+
                     blockchain.chain[3].lastHash = 'bruckup-some-bad-evil-data';
 
                     expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
@@ -57,7 +55,10 @@ describe('Blockchain', () => {
             });
 
             describe('and the chain does not contain any invalid blocks', () => {
-                it('returns true', () => { });
+                it('returns true', () => { 
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).toBe(true);
+                });
             });
         });
     });
