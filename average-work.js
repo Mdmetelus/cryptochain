@@ -18,6 +18,9 @@ for (let i = 0;  i <10000; i++) {
     timeDiff = nextTimestamp - prevTimestamp;
     times.push(timeDiff);
 
-    average = times.reduce((total, num) => (total + num));
+    average = times.reduce((total, eachNum) => (total + eachNum))/times.length;
+
+    console.log(`Time to mine block : ${timeDiff}ms.    Difficulty : ${nextBlock.difficulty}.   Average time : ${average}ms. Index num ${i} out of 10000.`);
+
 
 }
