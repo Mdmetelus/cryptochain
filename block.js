@@ -21,19 +21,34 @@ class Block {
 
 
     static mineBlock({ lastBlock, data }) {
-        const timestamp = Date.now();
+        let hash, timestamp;
+        // const timestamp = Date.now();
         const lastHash = lastBlock.hash;
         const { difficulty } = lastBlock;
         let nonce = 0;
         // return new Block();
+
+        do {
+            nonce++;
+            timestamp = Date.now();
+            hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty );
+        } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty));
+
         return new this({
             timestamp,
             lastHash,
             data,
             nonce,
             difficulty,
-            hash: cryptoHash(timestamp,lastHash, data, nonce, difficulty)
+            hash
+            // hash: cryptoHash(timestamp,lastHash, data, nonce, difficulty)
         });
+    }
+
+    static adjustDifficulty({ originalBlock, timestamp }) {
+        const { difficulty } = originalBlock;
+
+        return difficulty + 1;
     }
 }
 
