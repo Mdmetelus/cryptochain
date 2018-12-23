@@ -37,4 +37,20 @@ Prevented a potential difficulty jump attack by adding extra validation for the 
 
 --
 
+Set up an express API to allow for interaction to the backend through HTTP requests.
 
+Created a GET request to read the blockchain.
+
+Added a POST request to write new blocks to the blockchain.
+
+Implemented a real-time messaging network through Redis or PubNub.
+
+Added the ability to broadcast chains.
+
+Started peers through alternate ports, and broadcasted chains when blocks were mined through the api.
+
+Synchronized chains when new peers connected to the network.
+
+Optimized the implementation to avoid redundant interaction.
+
+--
