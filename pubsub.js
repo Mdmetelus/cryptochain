@@ -33,6 +33,13 @@ class PubSub {
         });
     }
 
+    broadcastTransaction(transaction) {
+        this.publish({
+          channel: CHANNELS.TRANSACTION,
+          message: JSON.stringify(transaction)
+        });
+      }
+
     subscribeToChannels() {
         this.pubnub.subscribe({
             channels: [Object.values(CHANNELS)]
@@ -41,29 +48,37 @@ class PubSub {
 
     listener() {
         return {
-            message: messageObject => {
-                const { channel, message } = messageObject;
-
-                console.log(`Message received, said pubsub listener! 
-            Channel: ${channel}. Message: ${message}`);
+          message: messageObject => {
+            const { channel, message } = messageObject;
+    
+            console.log(`Message received. Channel: ${channel}. Message: ${message}`);
+            const parsedMessage = JSON.parse(message);
+    
+            switch(channel) {
+              case CHANNELS.BLOCKCHAIN:
+                this.blockchain.replaceChain(parsedMessage, true, () => {
+                  this.transactionPool.clearBlockchainTransactions(
+                    { chain: parsedMessage.chain }
+                  );
+                });
+                break;
+              case CHANNELS.TRANSACTION:
+                this.transactionPool.setTransaction(parsedMessage);
+                break;
+              default:
+                return;
             }
-        };
-    };
-
-    publish({ channel, message }) {
-        this.pubnub.publish({ channel, message });
-    };
-
-    handleMessage({ channel, message }) {
-        const parsedMessage = JSON.parse(message);
-        if(channel === CHANNELS.BLOCKCHAIN ) {
-            this.blockchain.replaceChain(parsedMessage);
+          }
         }
-
-    };
-
-
-};
+      }
+    
+      publish({ channel, message }) {
+        // there is an unsubscribe function in pubnub
+        // but it doesn't have a callback that fires after success
+        // therefore, redundant publishes to the same local subscriber will be accepted as noisy no-ops
+        this.pubnub.publish({ message, channel });
+      }
+    }
 
 // const testPubSub = new PubSub();
 // testPubSub.publish({ channel: CHANNELS.TEST, message: 'hello pubnub!!!'});
