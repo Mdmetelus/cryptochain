@@ -1,7 +1,7 @@
 const Blockchain = require('.');
 //const Blockchain = require('./index); another wat to put the above line.
 const Block = require('./block');
-const cryptoHash = require('../util/crypto-hash');
+const { cryptoHash } = require('../util');
 
 describe('Blockchain', () => {
     let blockchain, newChain, originalChain;
