@@ -10,7 +10,7 @@ describe('Transaction', () => {
         recipient = 'recipient-public-key';
         amount = 50;
 
-        transaction = new Transaction({ senderWallet, recipient, amount});
+        transaction = new Transaction({ senderWallet, recipient, amount });
 
     });
     it('has an `id`', () => {
