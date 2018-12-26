@@ -55,14 +55,14 @@ describe('Transaction', () => {
     describe('validTransaction()', () => {
         let errorMock;
 
-        beforeEach( () => {
+        beforeEach(() => {
             errorMock = jest.fn();
 
             global.console.error = errorMock;
         });
         describe('when the transaction is valid', () => {
             it('returns true', () => {               
-                expect(Transaction.validTransaction(trasaction)).toBe(true);
+                expect(Transaction.validTransaction(transaction)).toBe(true);
             });
         });
 
@@ -71,15 +71,17 @@ describe('Transaction', () => {
                 it('returns false, and logs an errror', () => {
                     transaction.outputMap[senderWallet.publicKey] = 999999;
 
-                    expect(Transaction.validTransaction(trasaction)).toBe(false);
-                    expect(errorMock).toHave
+                    expect(Transaction.validTransaction(transaction)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
                 });
             });
 
             describe('and a transaction input signiture is invalid', () => {
                 it('returns false, and logs an errror', () => {
                     transaction.input.signature = new Wallet().sign('data');
-                    expect(Transaction.validTransaction(trasaction)).toBe(false);
+
+                    expect(Transaction.validTransaction(transaction)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
                 });
             });
         });
