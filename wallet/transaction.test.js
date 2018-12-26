@@ -72,7 +72,7 @@ describe('Transaction', () => {
                     transaction.outputMap[senderWallet.publicKey] = 999999;
 
                     expect(Transaction.validTransaction(trasaction)).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
+                    expect(errorMock).toHave
                 });
             });
 
@@ -80,7 +80,6 @@ describe('Transaction', () => {
                 it('returns false, and logs an errror', () => {
                     transaction.input.signature = new Wallet().sign('data');
                     expect(Transaction.validTransaction(trasaction)).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
                 });
             });
         });
