@@ -2,7 +2,7 @@ const Wallet = require('./index');
 const Transaction = require('./transaction');
 const { verifySignature } = require('../util');
 
-describe('Wallet', ( )=>{
+describe('Wallet', () => {
     let wallet;
 
     beforeEach( () => {
@@ -27,7 +27,7 @@ describe('Wallet', ( )=>{
                     data,
                     signature: wallet.sign(data)
                 })
-            ).toBe(true)
+            ).toBe(true);
         });
         it('does not verifies an invalid signature', ()=> {
             expect(
@@ -36,27 +36,28 @@ describe('Wallet', ( )=>{
                     data,
                     signature: new Wallet().sign(data)
                 })
-            ).toBe(false)
+            ).toBe(false);
         });
     });
 
     describe('createTransaction()', () => {
-        describe('and the amout exdeeds the balance', () => {
-            let transaction, amount, recipient;
-
-            beforeEach(() => {
-                amount=50;
-                recipient = 'foo-recipient';
-                transaction = wallet.createTransaction({ amount, recipient});
-            });
+        describe('and the amount exceeds the balance', () => {
             it('throws and error', () => {
-                expect(() => wallet.createTransaction({amount: 99999999, recipient: 'foo-recipient'}))
+                expect(() => wallet.createTransaction({ amount: 999999999, recipient: 'foo-recipient'}))
                 .toThrow('Amount exceeds balance');
             });
         });
 
-        describe('and the amout is valid', () => {
-            it('creates an instance of`Transaction`', () => {
+        describe('and the amount is valid', () => {
+            let transaction, amount, recipient;
+
+            beforeEach(() => {
+                amount = 50 ;
+                recipient = 'foo-recipient';
+                transaction = wallet.createTransaction({ amount, recipient });
+            });
+
+            it('creates an instance of `Transaction`', () => {
                 expect(transaction instanceof Transaction).toBe(true);
             });
 
