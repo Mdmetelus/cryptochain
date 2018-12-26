@@ -1,3 +1,4 @@
+const Transaction = require('./transaction');
 const { STARTING_BALANCE } = require('../config');
 const { ec, cryptoHash } = require('../util');
 // const cryptoHash = require('../util/crypto-hash');
@@ -19,9 +20,13 @@ class Wallet{
         return this.keyPair.sign(cryptoHash(data))
     }
 
-    // verifySigniture() {
+    createTransaction({ recipient, amount }) {
+        if ( amount > this.banance ) {
+            throw new Error('Amount Exceeds balance');
+        }
 
-    // }
+        return new Transaction({ senderWallet: this, recipient, amount });
+    }
 }
 
 module.exports = Wallet;
